@@ -120,11 +120,8 @@ var app = builder.Build();
 // ==========================================
 // 6. MIDDLEWARE PIPELINE
 // ==========================================
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 
 app.UseCors("AllowAll"); // Phải đặt trước Auth
