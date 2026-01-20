@@ -38,12 +38,16 @@ namespace QLKTX_BUS
 
         public async Task<LoginResponse?> LoginAsync(LoginRequest request)
         {
-            // Đảm bảo DAO đã Include(u => u.ma_svNavigation)
             var user = await dao.GetByUsernameAsync(request.Username);
             if (user == null) return null;
 
-            // Kiểm tra mật khẩu (nếu chưa mã hóa)
-            if (user.mat_khau != request.Password)
+            // ✅ Verify bcrypt
+            bool isValidPassword = BCrypt.Net.BCrypt.Verify(
+                request.Password,
+                user.mat_khau
+            );
+
+            if (!isValidPassword)
                 return null;
 
             return new LoginResponse
