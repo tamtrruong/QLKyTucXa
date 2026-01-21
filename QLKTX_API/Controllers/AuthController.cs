@@ -71,12 +71,7 @@ public class AuthController : ControllerBase
     [HttpPost("change-password")]
     public async Task<IActionResult> ChangePassword(ChangePassword_DTO dto)
     {
-        await authBus.ChangePasswordAsync(
-            User.Identity!.Name!,
-            dto.OldPassword,
-            dto.NewPassword
-        );
-
+        await _authBus.ChangePasswordAsync(User.Identity!.Name!,dto.OldPassword,dto.NewPassword);
         return Ok("Đổi mật khẩu thành công");
     }
 }
