@@ -69,7 +69,7 @@ public class AuthController : ControllerBase
 
     [Authorize]
     [HttpPost("change-password")]
-    public async Task<IActionResult> ChangePassword(ChangePasswordDTO dto)
+    public async Task<IActionResult> ChangePassword(ChangePassword_DTO dto)
     {
         await authBus.ChangePasswordAsync(
             User.Identity!.Name!,
