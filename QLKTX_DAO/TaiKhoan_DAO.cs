@@ -13,35 +13,22 @@ namespace QLKTX_DAO
             this.context = context;
         }
 
-        public async Task ChangePassword(string username, string oldPass, string newPass)
-        {
-            // Trong DB của bạn, DbSet sẽ là 'tai_khoans' (số nhiều) 
-            // và khóa chính là 'ten_dang_nhap'
-            var user = await context.tai_khoans.FindAsync(username);
-
-            if (user == null)
-                throw new Exception("Tài khoản không tồn tại");
-
-            // Kiểm tra mật khẩu (Sử dụng cột 'mat_khau' từ script DB)
-            if (user.mat_khau != oldPass)
-                throw new Exception("Mật khẩu cũ không đúng");
-
-            user.mat_khau = newPass;
-
-            context.tai_khoans.Update(user);
-            await context.SaveChangesAsync();
-        }
-
         public async Task<tai_khoan?> GetByUsernameAsync(string username)
         {
-            // Sửa 'TenDangNhap' thành 'ten_dang_nhap' cho đúng với script DB
-            return await context.tai_khoans
-                .FirstOrDefaultAsync(u => u.ten_dang_nhap == username);
+             return await context.tai_khoans
+                    .Include(x => x.ma_svNavigation)
+                    .FirstOrDefaultAsync(x => x.ten_dang_nhap == username);
         }
 
         public async Task AddAccountAsync(tai_khoan account)
         {
             await context.tai_khoans.AddAsync(account);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(tai_khoan account)
+        {
+            context.tai_khoans.Update(account);
             await context.SaveChangesAsync();
         }
     }

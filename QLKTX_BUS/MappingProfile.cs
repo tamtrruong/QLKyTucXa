@@ -35,10 +35,14 @@ namespace QLKTX_BUS
             // 5. VI PHẠM & THỐNG KÊ (Folder Tke)
             CreateMap<vi_pham, ViPham_DTO>().ReverseMap();
 
-            // 6. TÀI KHOẢN (Folder Auth)
-            CreateMap<LoginRequest, tai_khoan>();
-            // Nếu muốn map ngược lại để hiển thị info user (ẩn mật khẩu)
-            CreateMap<tai_khoan, LoginResponse>();
+            CreateMap<Register_DTO, tai_khoan>()
+                .ForMember(dest => dest.mat_khau,opt => opt.MapFrom(src =>BCrypt.Net.BCrypt.HashPassword(src.MatKhau)))
+                .ForMember(dest => dest.ten_dang_nhap,opt => opt.MapFrom(src => src.TenDangNhap));
+            CreateMap<tai_khoan, LoginResponse>()
+                .ForMember(dest => dest.TenDangNhap,opt => opt.MapFrom(src => src.ten_dang_nhap))
+                .ForMember(dest => dest.MaSV,opt => opt.MapFrom(src => src.ma_sv))
+                .ForMember(dest => dest.HoTen,opt => opt.MapFrom(src => src.ma_svNavigation.ho_ten))
+                .ForMember(dest => dest.Quyen,opt => opt.MapFrom(src => (QuyenNguoiDung)(byte)src.quyen));
 
             // Map từ DTO tạo mới sang Entity
             CreateMap<CreateViPham_DTO, vi_pham>()
