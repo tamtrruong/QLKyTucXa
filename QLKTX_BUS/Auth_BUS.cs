@@ -44,7 +44,7 @@ namespace QLKTX_BUS
             return response;
         }
 
-        public async Task ChangePassword(string username, string oldPass, string newPass)
+        public async Task ChangePasswordAsync(string username, string oldPass, string newPass)
         {
             var user = await dao.GetByUsernameAsync(username);
 
