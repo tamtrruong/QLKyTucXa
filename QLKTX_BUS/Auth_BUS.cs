@@ -20,14 +20,18 @@ namespace QLKTX_BUS
 
         public async Task RegisterAsync(Register_DTO dto)
         {
-            var existing = await dao.GetByUsernameAsync(dto.TenDangNhap);
-            if (existing != null)
-                throw new Exception("Tên đăng nhập đã tồn tại");
+            if (dto.VaiTro == QuyenNguoiDung.SinhVien)
+            {
+                if (string.IsNullOrWhiteSpace(dto.MaSV))
+            throw new Exception("Sinh viên cần mã SV");
+            }
+            else
+                dto.MaSV = null;
 
             var account = map.Map<tai_khoan>(dto);
-
             await dao.AddAccountAsync(account);
         }
+
 
 
         public async Task<LoginResponse?> LoginAsync(LoginRequest request)
