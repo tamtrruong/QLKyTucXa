@@ -27,7 +27,7 @@ namespace QLKTX_DAO
 
         public async Task AddAsync(sinh_vien sv)
         {
-            if (await _context.sinh_viens.AnyAsync(x => x.ma_sv == sv.ma_sv))
+            if (await ExistsAsync(sv.ma_sv))
             {
                 throw new Exception("Mã sinh viên đã tồn tại!");
             }
@@ -62,5 +62,11 @@ namespace QLKTX_DAO
                 await _context.SaveChangesAsync();
             }
         }
+
+        if (await _dao.ExistsAsync(dto.MaSV))
+        {
+            throw new Exception("Sinh viên đã tồn tại");
+        }
+
     }
 }

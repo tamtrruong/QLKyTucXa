@@ -63,13 +63,14 @@ namespace QLKTX_BUS
                 .ForMember(dest => dest.TenDangNhap,opt => opt.MapFrom(src => src.ten_dang_nhap))
                 .ForMember(dest => dest.MaSV,opt => opt.MapFrom(src => src.ma_sv))
                 .ForMember(dest => dest.Quyen,opt => opt.MapFrom(src => (QuyenNguoiDung)src.quyen))
-                .ForMember(dest => dest.HoTen,opt => opt.MapFrom(src =>
-                        src.quyen == 0
-                            ? src.ho_ten
+                .ForMember(dest => dest.HoTen,
+                    opt => opt.MapFrom(src =>
+                        (QuyenNguoiDung)src.quyen == QuyenNguoiDung.Admin
+                            ? "Quản trị viên"
                             : src.ma_svNavigation != null
                                 ? src.ma_svNavigation.ho_ten
                                 : null
-                ));
+                    ));
        
 
             // Map từ DTO tạo mới sang Entity

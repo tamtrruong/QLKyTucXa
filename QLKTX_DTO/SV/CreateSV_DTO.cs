@@ -4,7 +4,7 @@
     {
         public string MaSV { get; set; } 
         public string HoTen { get; set; }
-        public DateTime NgaySinh { get; set; }
+        public DateTime? NgaySinh { get; set; }
         public Genders GioiTinh { get; set; }
         public string SDT { get; set; }
         public string DiaChi { get; set; }
