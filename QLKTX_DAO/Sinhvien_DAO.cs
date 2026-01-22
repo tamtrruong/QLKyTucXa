@@ -63,9 +63,9 @@ namespace QLKTX_DAO
             }
         }
 
-        if (await _dao.ExistsAsync(dto.MaSV))
+        public async Task<bool> ExistsAsync(string maSV)
         {
-            throw new Exception("Sinh viên đã tồn tại");
+            return await _context.sinh_viens.AnyAsync(x => x.ma_sv == maSV);
         }
 
     }
