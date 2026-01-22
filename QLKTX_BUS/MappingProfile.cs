@@ -13,10 +13,13 @@ namespace QLKTX_BUS
     {
         public MappingProfile()
         {
-            CreateMap<sinh_vien, SinhVien_DTO>().ReverseMap();
+            CreateMap<sinh_vien, SinhVien_DTO>()
+                .ForMember(d => d.GioiTinh,
+                    o => o.MapFrom(s => (Genders?)s.gioi_tinh));
+            CreateMap<CreateSV_DTO, sinh_vien>()
+                .ForMember(d => d.ho_ten, o => o.MapFrom(s => s.HoTen))
+                .ForMember(d => d.gioi_tinh, o => o.MapFrom(s => (byte)s.GioiTinh));
 
-            // Map cho Create (thường chỉ cần 1 chiều từ DTO -> Entity để lưu xuống DB)
-            CreateMap<CreateSV_DTO, sinh_vien>();
             CreateMap<phong, Phong_DTO>().ReverseMap();
             CreateMap<toa_nha, ToaNha_DTO>().ReverseMap();
 
@@ -47,7 +50,7 @@ namespace QLKTX_BUS
                         src.VaiTro == QuyenNguoiDung.SinhVien
                             ? src.MaSV
                             : null));
-            
+
 
             CreateMap<tai_khoan, LoginResponse>()
                 .ForMember(dest => dest.TenDangNhap,opt => opt.MapFrom(src => src.ten_dang_nhap))
