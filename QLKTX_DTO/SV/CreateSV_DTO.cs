@@ -2,6 +2,7 @@
 {
     public class CreateSV_DTO
     {
+        public string MaSV { get; set; } 
         public string HoTen { get; set; }
         public DateTime NgaySinh { get; set; }
         public Genders GioiTinh { get; set; }

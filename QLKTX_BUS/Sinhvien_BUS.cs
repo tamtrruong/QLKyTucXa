@@ -30,18 +30,14 @@ namespace QLKTX_BUS
 
         public async Task CreateAsync(CreateSV_DTO dto)
         {
-            // Map từ DTO sang Entity (sinh_vien)
+            if (string.IsNullOrWhiteSpace(dto.MaSV))
+                throw new Exception("Mã sinh viên không được để trống");
+            if (await dao.ExistsAsync(dto.MaSV))
+                throw new Exception("Mã sinh viên đã tồn tại");
             var entity = map.Map<sinh_vien>(dto);
-
-            // Tạo mã sinh viên tự động
-            string prefix = "SV" + DateTime.Now.ToString("yyyyMMdd");
-            Random rd = new Random();
-
-            // Sửa MaSv -> ma_sv
-            entity.ma_sv = prefix + rd.Next(10, 99);
-
             await dao.AddAsync(entity);
         }
+
 
         public async Task UpdateAsync(SinhVien_DTO dto)
         {
