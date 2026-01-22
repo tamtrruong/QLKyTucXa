@@ -9,10 +9,4 @@
         public string DiaChi { get; set; }
         public string Lop { get; set; }
     }
-
-    public enum Genders : byte
-    {
-        Nam = 0,
-        Nu = 1
-    }
 }
