@@ -36,8 +36,11 @@ namespace QLKTX_BUS
             CreateMap<vi_pham, ViPham_DTO>().ReverseMap();
 
             CreateMap<Register_DTO, tai_khoan>()
-                .ForMember(dest => dest.mat_khau,opt => opt.MapFrom(src =>BCrypt.Net.BCrypt.HashPassword(src.MatKhau)))
-                .ForMember(dest => dest.ten_dang_nhap,opt => opt.MapFrom(src => src.TenDangNhap));
+                .ForMember(dest => dest.ten_dang_nhap, opt => opt.MapFrom(src => src.TenDangNhap))
+                .ForMember(dest => dest.mat_khau, opt => opt.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.MatKhau)))
+                .ForMember(dest => dest.quyen, opt => opt.MapFrom(src => (short)src.VaiTro))
+                .ForMember(dest => dest.ma_sv, opt => opt.MapFrom(src => src.MaSV));
+
             CreateMap<tai_khoan, LoginResponse>()
                 .ForMember(dest => dest.TenDangNhap,opt => opt.MapFrom(src => src.ten_dang_nhap))
                 .ForMember(dest => dest.MaSV,opt => opt.MapFrom(src => src.ma_sv))
