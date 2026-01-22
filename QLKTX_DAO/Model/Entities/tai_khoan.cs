@@ -6,6 +6,8 @@ namespace QLKTX_DAO.Model.Entities;
 public partial class tai_khoan
 {
     public string ten_dang_nhap { get; set; } = null!;
+    
+    public string? ho_ten { get; set; }
 
     public string mat_khau { get; set; } = null!;
 
