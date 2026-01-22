@@ -41,8 +41,15 @@ namespace QLKTX_BUS
             CreateMap<tai_khoan, LoginResponse>()
                 .ForMember(dest => dest.TenDangNhap,opt => opt.MapFrom(src => src.ten_dang_nhap))
                 .ForMember(dest => dest.MaSV,opt => opt.MapFrom(src => src.ma_sv))
-                .ForMember(dest => dest.HoTen,opt => opt.MapFrom(src => src.ma_svNavigation.ho_ten))
-                .ForMember(dest => dest.Quyen,opt => opt.MapFrom(src => (QuyenNguoiDung)(byte)src.quyen));
+                .ForMember(dest => dest.Quyen,opt => opt.MapFrom(src => (QuyenNguoiDung)src.quyen))
+                .ForMember(dest => dest.HoTen,opt => opt.MapFrom(src =>
+                        src.quyen == 0
+                            ? src.ho_ten
+                            : src.ma_svNavigation != null
+                                ? src.ma_svNavigation.ho_ten
+                                : null
+                ));
+       
 
             // Map từ DTO tạo mới sang Entity
             CreateMap<CreateViPham_DTO, vi_pham>()
