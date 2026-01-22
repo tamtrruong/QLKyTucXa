@@ -19,13 +19,13 @@ namespace QLKTX_BUS
             CreateMap<CreateSV_DTO, sinh_vien>()
                 .ForMember(d => d.ho_ten, o => o.MapFrom(s => s.HoTen))
                 .ForMember(d => d.ma_sv, opt => opt.MapFrom(src => src.MaSV))
-                .ForMember(d => d.gioi_tinh, o => o.MapFrom(s => (byte)s.GioiTinh));
+                .ForMember(d => d.gioi_tinh, o => o.MapFrom(s => (byte)s.GioiTinh))
                 .ForMember(d => d.ngay_sinh,
                     opt => opt.MapFrom(src =>
                         src.NgaySinh.HasValue
                             ? DateOnly.FromDateTime(src.NgaySinh.Value)
                             : null
-                    ))          
+                    ));          
 
             CreateMap<phong, Phong_DTO>().ReverseMap();
             CreateMap<toa_nha, ToaNha_DTO>().ReverseMap();
