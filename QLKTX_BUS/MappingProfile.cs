@@ -23,7 +23,7 @@ namespace QLKTX_BUS
                 .ForMember(d => d.ngay_sinh,
                     opt => opt.MapFrom(src =>
                         src.NgaySinh.HasValue
-                            ? DateOnly.FromDateTime(src.NgaySinh.Value)
+                            ? (DateOnly?)DateOnly.FromDateTime(s.NgaySinh.Value)
                             : null
                     ));          
 
