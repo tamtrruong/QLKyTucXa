@@ -36,16 +36,16 @@ namespace QLKTX_DAO
                 .ToListAsync();
         }
 
-        public async Task<List<DoanhThuPhong_DTO>> GetDoanhThuTheoPhongAsync(DateTime tuNgay,DateTime denNgay)
+       public async Task<List<DoanhThuPhong_DTO>> GetDoanhThuTheoPhongAsync(DateTime tuNgay, DateTime denNgay)
         {
             return await _context.hoa_dons
                 .Where(hd => hd.ngay_thanh_toan >= tuNgay
-                      && hd.ngay_thanh_toan <= denNgay)
+                    && hd.ngay_thanh_toan <= denNgay)
                 .GroupBy(hd => hd.ma_phong)
                 .Select(g => new DoanhThuPhong_DTO
                 {
                     MaPhong = g.Key!,
-                    TongDoanhThu = g.Sum(x => x.tong_tien)
+                    TongDoanhThu = g.Sum(x => x.tong_tien) ?? 0m 
                 })
                 .ToListAsync();
         }
