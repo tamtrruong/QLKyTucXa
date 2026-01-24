@@ -20,6 +20,15 @@ namespace QLKTX_DAO
                 .AnyAsync(hd => hd.ma_sv == maSV && hd.tinh_trang == 1 && hd.ngay_ket_thuc > DateTime.Now);
         }
 
+        public async Task<List<hop_dong>> GetAllAsync()
+        {
+            return await _context.hop_dongs
+                .Include(h => h.sinh_vien)
+                .Include(h => h.phong)
+                .ToListAsync();
+        }
+
+
         public async Task CreateHopDong(hop_dong hd)
         {
             // 1. Kiểm tra sinh viên có đang ở phòng khác không
@@ -67,12 +76,5 @@ namespace QLKTX_DAO
                 .ToListAsync();
         }
 
-        public async Task<hop_dong?> GetHopDongHienTaiCuaSV(string maSV)
-        {
-            // Tìm hợp đồng có tinh_trang = 1 (hoặc 0 tùy quy ước của bạn là 'Đang ở')
-            // và ngày kết thúc chưa quá hạn
-            return await _context.hop_dongs
-                .FirstOrDefaultAsync(hd => hd.ma_sv == maSV && hd.tinh_trang == 1 && hd.ngay_ket_thuc > DateTime.Now);
-        }
     }
 }

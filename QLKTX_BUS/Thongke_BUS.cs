@@ -23,5 +23,13 @@ namespace QLKTX_BUS
         {
             return await dao.GetThongKeTrangThaiHoaDon();
         }
+
+        public async Task<List<DoanhThuPhong_DTO>> GetDoanhThuTheoPhongAsync(DateTime tuNgay,DateTime denNgay)
+        {
+            if (tuNgay > denNgay)
+                throw new Exception("Từ ngày không hợp lệ");
+
+            return await dao.GetDoanhThuTheoPhongAsync(tuNgay, denNgay);
+        }
     }
 }
