@@ -49,4 +49,5 @@ namespace QLKTX_DAO
                 })
                 .ToListAsync();
         }
+    }
 }
