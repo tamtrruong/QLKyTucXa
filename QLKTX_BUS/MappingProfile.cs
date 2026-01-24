@@ -6,6 +6,7 @@ using QLKTX_DTO.Hopdong;
 using QLKTX_DTO.Rooms;
 using QLKTX_DTO.SV;
 using QLKTX_DTO.Tke;
+using QLKTX_DTO.BangGia;
 
 namespace QLKTX_BUS
 {
