@@ -1,4 +1,4 @@
-namespace QLKTX_DTO.ThongKe
+namespace QLKTX_DTO.Tke
 {
     public class DoanhThuPhong_DTO
     {
