@@ -39,9 +39,10 @@ namespace QLKTX_BUS
                 .ForMember(d => d.ngay_tao, o => o.MapFrom(_ => DateTime.Now))
                 .ForMember(d => d.ngay_bat_dau, o => o.MapFrom(s => s.NgayBatDau))
                 .ForMember(d => d.ngay_ket_thuc, o => o.MapFrom(s => s.NgayKetThuc));
-            CreateMap<GiaHanHopDong_DTO, hop_dong>()
-                .ForMember(d => d.ngay_ket_thuc, o => o.MapFrom(s => s.NgayKetThuc))
-                .ForAllOtherMembers(o => o.Ignore());
+           CreateMap<GiaHanHopDong_DTO, hop_dong>()
+                .ForMember(d => d.ngay_ket_thuc, o => o.Ignore())
+                .ForMember(d => d.so_thang, o => o.Ignore());
+
 
 
             // 4. HÓA ĐƠN & ĐIỆN NƯỚC (Folder Bill)
