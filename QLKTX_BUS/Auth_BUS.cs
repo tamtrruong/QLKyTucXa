@@ -41,7 +41,6 @@ namespace QLKTX_BUS
             var user = await dao.GetByUsernameAsync(request.Username);
             if (user == null) return null;
 
-            // ✅ Verify bcrypt
             bool isValidPassword = BCrypt.Net.BCrypt.Verify(
                 request.Password,
                 user.mat_khau
