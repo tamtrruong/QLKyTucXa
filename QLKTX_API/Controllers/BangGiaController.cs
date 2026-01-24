@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using QLKTX_API.BUS;
 using QLKTX_DTO.BangGia;
 
 

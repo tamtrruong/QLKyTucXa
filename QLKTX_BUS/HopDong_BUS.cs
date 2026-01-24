@@ -33,17 +33,6 @@ namespace QLKTX_BUS
             // Map sang hop_dong
             var entity = map.Map<hop_dong>(dto);
 
-            // Sửa logic tính ngày: Dùng property snake_case
-            if (dto.SoThang > 0)
-            {
-                entity.ngay_ket_thuc = entity.ngay_bat_dau.AddMonths(dto.SoThang);
-            }
-            else
-            {
-                entity.ngay_ket_thuc = entity.ngay_bat_dau.AddMonths(12);
-                entity.so_thang = 12;
-            }
-
             // Sửa tên thuộc tính
             entity.ma_hop_dong = $"HD_{dto.MaSV}_{dto.MaPhong}";
             entity.tinh_trang = 1; // 1: Hiệu lực

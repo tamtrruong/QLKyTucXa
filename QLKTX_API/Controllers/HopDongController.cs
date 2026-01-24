@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using QLKTX_BUS;
 using QLKTX_DTO.Hopdong;
 
