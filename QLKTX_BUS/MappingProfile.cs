@@ -6,6 +6,7 @@ using QLKTX_DTO.Hopdong;
 using QLKTX_DTO.Rooms;
 using QLKTX_DTO.SV;
 using QLKTX_DTO.Tke;
+using QLKTX_DTO.BangGia;
 
 namespace QLKTX_BUS
 {
@@ -13,18 +14,45 @@ namespace QLKTX_BUS
     {
         public MappingProfile()
         {
-            CreateMap<sinh_vien, SinhVien_DTO>().ReverseMap();
+            CreateMap<sinh_vien, SinhVien_DTO>()
+                .ForMember(d => d.GioiTinh,
+                    o => o.MapFrom(s => (Genders?)s.gioi_tinh));
+            CreateMap<CreateSV_DTO, sinh_vien>()
+                .ForMember(d => d.ho_ten, o => o.MapFrom(s => s.HoTen))
+                .ForMember(d => d.ma_sv, opt => opt.MapFrom(src => src.MaSV))
+                .ForMember(d => d.gioi_tinh, o => o.MapFrom(s => (short)s.GioiTinh))
+                .ForMember(d => d.ngay_sinh,
+                    opt => opt.MapFrom(src =>
+                        src.NgaySinh.HasValue
+                            ? (DateOnly?)DateOnly.FromDateTime(src.NgaySinh.Value)
+                            : null
+                    ));          
 
-            // Map cho Create (thường chỉ cần 1 chiều từ DTO -> Entity để lưu xuống DB)
-            CreateMap<CreateSV_DTO, sinh_vien>();
             CreateMap<phong, Phong_DTO>().ReverseMap();
             CreateMap<toa_nha, ToaNha_DTO>().ReverseMap();
 
-            CreateMap<hop_dong, HopDong_DTO>().ReverseMap();
+            CreateMap<hop_dong, HopDong_DTO>();
             // Map dữ liệu từ form tạo hợp đồng sang Entity
             CreateMap<CreateHopDong_DTO, hop_dong>()
-                .ForMember(dest => dest.ngay_bat_dau, opt => opt.MapFrom(src => src.NgayBatDau));
-            CreateMap<GiaHanHopDong_DTO, hop_dong>();
+                .ForMember(d => d.ma_hop_dong, o => o.Ignore())
+                .ForMember(d => d.ma_sv, o => o.MapFrom(s => s.MaSV))
+                .ForMember(d => d.ma_phong, o => o.MapFrom(s => s.MaPhong))
+                .ForMember(d => d.ngay_bat_dau, o => o.MapFrom(s => s.NgayBatDau))
+                .ForMember(d => d.ngay_ket_thuc, o => o.MapFrom(s => s.NgayKetThuc))
+                .ForMember(d => d.tinh_trang, o => o.MapFrom(_ => (short)1));
+
+            CreateMap<GiaHanHopDong_DTO, hop_dong>()
+                .ForMember(d => d.ngay_ket_thuc, o => o.MapFrom(s => s.NgayKetThuc))
+                .ForMember(d => d.ma_hop_dong, o => o.Ignore())
+                .ForMember(d => d.ma_sv, o => o.Ignore())
+                .ForMember(d => d.ma_phong, o => o.Ignore())
+                .ForMember(d => d.ngay_bat_dau, o => o.Ignore())
+                .ForMember(d => d.so_thang, o => o.Ignore())
+                .ForMember(d => d.tinh_trang, o => o.Ignore());
+
+
+
+
 
             // 4. HÓA ĐƠN & ĐIỆN NƯỚC (Folder Bill)
             CreateMap<hoa_don, HoaDon_DTO>()
@@ -32,13 +60,50 @@ namespace QLKTX_BUS
             CreateMap<CreateHD_DTO, hoa_don>()
                 .ForMember(dest => dest.ma_phong, opt => opt.MapFrom(src => src.MaPhong));
 
+            CreateMap<bang_gium, BangGia_DTO>()
+                .ForMember(d => d.MaBangGia, o => o.MapFrom(s => s.ma_bang_gia))
+                .ForMember(d => d.LoaiPhong, o => o.MapFrom(s => s.loai_phong))
+                .ForMember(d => d.DonGiaPhong, o => o.MapFrom(s => s.don_gia_phong))
+                .ForMember(d => d.DonGiaDien, o => o.MapFrom(s => s.don_gia_dien))
+                .ForMember(d => d.DonGiaNuoc, o => o.MapFrom(s => s.don_gia_nuoc))
+                .ForMember(d => d.PhiRac, o => o.MapFrom(s => s.phi_rac))
+                .ForMember(d => d.NgayApDung, o => o.MapFrom(s => s.ngay_ap_dung))
+                .ForMember(d => d.DangSuDung, o => o.MapFrom(s => s.dang_su_dung));
+            CreateMap<CreateBangGia_DTO, bang_gium>()
+                .ForMember(d => d.ma_bang_gia, o => o.Ignore())
+                .ForMember(d => d.dang_su_dung, o => o.Ignore())
+                .ForMember(d => d.ngay_ap_dung,
+                    o => o.MapFrom(s => s.NgayApDung ?? DateTime.Now));
+
+
             // 5. VI PHẠM & THỐNG KÊ (Folder Tke)
             CreateMap<vi_pham, ViPham_DTO>().ReverseMap();
 
-            // 6. TÀI KHOẢN (Folder Auth)
-            CreateMap<LoginRequest, tai_khoan>();
-            // Nếu muốn map ngược lại để hiển thị info user (ẩn mật khẩu)
-            CreateMap<tai_khoan, LoginResponse>();
+            CreateMap<Register_DTO, tai_khoan>()
+                .ForMember(dest => dest.ten_dang_nhap,
+                    opt => opt.MapFrom(src => src.TenDangNhap))
+                .ForMember(dest => dest.mat_khau,
+                    opt => opt.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.MatKhau)))
+                .ForMember(dest => dest.quyen,
+                    opt => opt.MapFrom(src => (short)src.VaiTro))
+                .ForMember(dest => dest.ma_sv,
+                    opt => opt.MapFrom(src =>
+                        src.VaiTro == QuyenNguoiDung.SinhVien
+                            ? src.MaSV
+                            : null));
+            CreateMap<tai_khoan, LoginResponse>()
+                .ForMember(dest => dest.TenDangNhap,opt => opt.MapFrom(src => src.ten_dang_nhap))
+                .ForMember(dest => dest.MaSV,opt => opt.MapFrom(src => src.ma_sv))
+                .ForMember(dest => dest.Quyen,opt => opt.MapFrom(src => (QuyenNguoiDung)src.quyen))
+                .ForMember(dest => dest.HoTen,
+                    opt => opt.MapFrom(src =>
+                        (QuyenNguoiDung)src.quyen == QuyenNguoiDung.Admin
+                            ? "Quản trị viên"
+                            : src.ma_svNavigation != null
+                                ? src.ma_svNavigation.ho_ten
+                                : null
+                    ));
+       
 
             // Map từ DTO tạo mới sang Entity
             CreateMap<CreateViPham_DTO, vi_pham>()

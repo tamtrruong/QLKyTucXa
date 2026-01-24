@@ -32,20 +32,14 @@ namespace QLKTX_API.Controllers
             return Ok(result);
         }
 
-        // TODO: Cần bổ sung function GetDoanhThuTheoPhongAsync vào BUS nếu muốn dùng
-        /*
         [HttpGet("doanh-thu-phong")]
-        public async Task<IActionResult> GetDoanhThuTheoPhong(
-            [FromQuery] DateTime tuNgay,
-            [FromQuery] DateTime denNgay)
+        public async Task<IActionResult> GetDoanhThuTheoPhong([FromQuery] DateTime tuNgay,[FromQuery] DateTime denNgay)
         {
             if (tuNgay > denNgay)
                 return BadRequest("Từ ngày phải nhỏ hơn hoặc bằng đến ngày");
 
-            // var result = await bus.GetDoanhThuTheoPhongAsync(tuNgay, denNgay);
-            // return Ok(result);
-            return Ok();
+            var result = await bus.GetDoanhThuTheoPhongAsync(tuNgay, denNgay);
+            return Ok(result);
         }
-        */
     }
 }

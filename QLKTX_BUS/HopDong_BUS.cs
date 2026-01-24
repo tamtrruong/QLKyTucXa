@@ -18,6 +18,13 @@ namespace QLKTX_BUS
             map = mapper;
         }
 
+        public async Task<List<HopDong_DTO>> GetAllAsync()
+        {
+            var list = await hddao.GetAllAsync();
+            return map.Map<List<HopDong_DTO>>(list);
+        }
+
+
         public async Task CreateHopDongAsync(CreateHopDong_DTO dto)
         {
             bool isHasRoom = await hddao.IsSinhVienCoPhong(dto.MaSV);

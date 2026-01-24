@@ -6,9 +6,9 @@ using QLKTX_DTO.SV;
 
 namespace QLKTX_API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class SinhVienController : ControllerBase
     {
         private readonly Sinhvien_BUS _bus;

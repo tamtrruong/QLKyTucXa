@@ -15,6 +15,15 @@ namespace QLKTX_API.Controllers
             _bus = bus;
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _bus.GetAllAsync();
+            return Ok(result);
+        }
+
+
         // 1. Đăng ký hợp đồng mới
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateHopDong_DTO dto)
