@@ -95,7 +95,7 @@ namespace QLKTX_DAO
         public async Task<hop_dong?> GetHopDongHienTaiCuaSV(string MaSV)
         {
             return await _context.hop_dongs
-                .Where(h => h.ma_sv == maSV && h.tinh_trang == 1)
+                .Where(h => h.ma_sv == MaSV && h.tinh_trang == 1)
                 .OrderByDescending(h => h.ngay_ket_thuc)
                 .FirstOrDefaultAsync();
 
