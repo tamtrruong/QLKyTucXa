@@ -92,12 +92,13 @@ namespace QLKTX_DAO
                 .ToListAsync();
         }
 
-        public async Task<hop_dong?> GetHopDongHienTaiCuaSV(int maSv)
+        public async Task<hop_dong?> GetHopDongHienTaiCuaSV(string MaSV)
         {
             return await _context.hop_dongs
-                .Where(hd => hd.ma_sv == maSv && hd.trang_thai == true)
-                .OrderByDescending(hd => hd.ngay_ket_thuc)
+                .Where(h => h.ma_sv == maSV && h.tinh_trang == 1)
+                .OrderByDescending(h => h.ngay_ket_thuc)
                 .FirstOrDefaultAsync();
+
         }
 
     }
