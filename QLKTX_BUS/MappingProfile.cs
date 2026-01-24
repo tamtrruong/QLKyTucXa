@@ -34,14 +34,22 @@ namespace QLKTX_BUS
             CreateMap<hop_dong, HopDong_DTO>();
             // Map dữ liệu từ form tạo hợp đồng sang Entity
             CreateMap<CreateHopDong_DTO, hop_dong>()
-                .ForMember(d => d.ma_hd, o => o.Ignore()) // identity
-                .ForMember(d => d.trang_thai, o => o.MapFrom(_ => true))
-                .ForMember(d => d.ngay_tao, o => o.MapFrom(_ => DateTime.Now))
+                .ForMember(d => d.ma_hop_dong, o => o.Ignore())
+                .ForMember(d => d.ma_sv, o => o.MapFrom(s => s.MaSV))
+                .ForMember(d => d.ma_phong, o => o.MapFrom(s => s.MaPhong))
                 .ForMember(d => d.ngay_bat_dau, o => o.MapFrom(s => s.NgayBatDau))
-                .ForMember(d => d.ngay_ket_thuc, o => o.MapFrom(s => s.NgayKetThuc));
+                .ForMember(d => d.ngay_ket_thuc, o => o.MapFrom(s => s.NgayKetThuc))
+                .ForMember(d => d.tinh_trang, o => o.MapFrom(_ => (short)1));
+
             CreateMap<GiaHanHopDong_DTO, hop_dong>()
                 .ForMember(d => d.ngay_ket_thuc, o => o.MapFrom(s => s.NgayKetThuc))
-                .ForAllOtherMembers(o => o.Ignore());
+                .ForMember(d => d.ma_hop_dong, o => o.Ignore())
+                .ForMember(d => d.ma_sv, o => o.Ignore())
+                .ForMember(d => d.ma_phong, o => o.Ignore())
+                .ForMember(d => d.ngay_bat_dau, o => o.Ignore())
+                .ForMember(d => d.so_thang, o => o.Ignore())
+                .ForMember(d => d.tinh_trang, o => o.Ignore());
+
 
 
 

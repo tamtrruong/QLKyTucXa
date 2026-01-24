@@ -20,8 +20,8 @@ namespace QLKTX_BUS
 
         public async Task<List<HopDong_DTO>> GetAllAsync()
         {
-            var list = await _dao.GetAllAsync();
-            return _mapper.Map<List<HopDong_DTO>>(list);
+            var list = await hddao.GetAllAsync();
+            return map.Map<List<HopDong_DTO>>(list);
         }
 
 

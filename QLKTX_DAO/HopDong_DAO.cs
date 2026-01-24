@@ -91,5 +91,14 @@ namespace QLKTX_DAO
                 .Include(h => h.ma_phongNavigation)
                 .ToListAsync();
         }
+
+        public async Task<hop_dong?> GetHopDongHienTaiCuaSV(int maSv)
+        {
+            return await _context.hop_dongs
+                .Where(hd => hd.ma_sv == maSv && hd.trang_thai == true)
+                .OrderByDescending(hd => hd.ngay_ket_thuc)
+                .FirstOrDefaultAsync();
+        }
+
     }
 }

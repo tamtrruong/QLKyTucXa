@@ -6,6 +6,6 @@ namespace QLKTX_DTO.Hopdong
         public string MaSV { get; set; }
         public string MaPhong { get; set; }
         public DateTime NgayBatDau { get; set; }
-        public int SoThang { get; set; } 
+        public DateTime NgayKetThuc { get; set; }
     }
 }
